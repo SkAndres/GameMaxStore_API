@@ -23,7 +23,7 @@ Faker==13.15.1
 jmespath==0.10.0
 kombu==5.2.0rc1
 phonenumbers==8.12.52
-Pillow==9.2.0
+Pillow==8.4.0
 prompt-toolkit==3.0.30
 psycopg2==2.9.3
 pycparser==2.21
