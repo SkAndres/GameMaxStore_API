@@ -1,6 +1,6 @@
 # Distribution / packaging
 .Python
-.env
+GameMax_Api/.env
 *.sqlite3
 .idea/
 # Project asset folders
