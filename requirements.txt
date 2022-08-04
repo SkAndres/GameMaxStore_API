@@ -21,7 +21,7 @@ djangorestframework-simplejwt==4.4.0
 drf-jwt==1.19.2
 Faker==13.15.1
 jmespath==0.10.0
-kombu==5.2.4
+kombu==5.2.0rc1
 phonenumbers==8.12.52
 Pillow==9.2.0
 prompt-toolkit==3.0.30
