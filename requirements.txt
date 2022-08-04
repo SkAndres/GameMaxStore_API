@@ -13,7 +13,7 @@ colorama==0.4.5
 cryptography==37.0.4
 Django==3.2.15
 django-cors-headers==3.10.1
-django-phonenumber-field==6.3.0
+django-phonenumber-field==6.0.0
 django-restframework==0.0.1
 django-storages==1.12.3
 djangorestframework==3.13.1
