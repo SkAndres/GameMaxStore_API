@@ -33,10 +33,10 @@ jobs:
         AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
         EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
         EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
-        NAME: ${{ secrets.NAME }}
-        USER: ${{ secrets.USER }}
-        PASSWORD: ${{ secrets.PASSWORD }}
-        HOST: ${{ secrets.HOST }}
-        PORT: ${{ secrets.PORT}}
+        POSTGRES_NAME: ${{ secrets.POSTGRES_NAME }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+        POSTGRES_PORT: ${{ secrets.POSTGRES_PORT}}
       run: |
         python manage.py test
