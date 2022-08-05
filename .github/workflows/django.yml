@@ -39,3 +39,4 @@ jobs:
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
       run: |
         python manage.py test
+        yes
