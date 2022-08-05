@@ -24,7 +24,9 @@ def api_user_overview(request):
 
         'Reset password': 'request-reset-password/',
         'Check token': 'password-reset/<uidb64>/<token>/',
-        'Complete password': 'password_reset_complete/'
+        'Complete password': 'password_reset_complete/',
+
+        'Update profile data': 'profile/update/'
     }
     return Response(api_user_urls)
 
