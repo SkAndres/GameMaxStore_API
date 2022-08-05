@@ -38,5 +38,4 @@ jobs:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
       run: |
-        python manage.py migrate
-        python manage.py test
+        python manage.py test --keepdb
