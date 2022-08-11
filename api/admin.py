@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Category, Product, Order, OrderAddress, User
-
 # Register your models here.
 
 
@@ -17,7 +16,8 @@ class Categories(admin.ModelAdmin):
 
 @admin.register(Product)
 class Product(admin.ModelAdmin):
-    list_display = ('id', 'category', 'image', 'title', 'price', 'description', 'quantity')
+    list_display = ('id', 'category', 'image',
+                    'title', 'price', 'description', 'quantity')
     list_filter = ('category', 'title', 'price')
 
 
