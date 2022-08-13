@@ -35,7 +35,7 @@ class TestUserSetUp(APITestCase):
 class TestProductSetUp(APITestCase):
     def setUp(self):
         self.product_overview_url = reverse('api_overview')
-        self.product_list_url = reverse('products_list')
+        self.product_list_url = reverse('product-list')
         self.category_ulr = reverse('category')
 
         self.category = Category.objects.create(name='1')
