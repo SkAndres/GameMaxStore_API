@@ -9,18 +9,22 @@ from django.core.exceptions import ObjectDoesNotExist
 @api_view(['GET'])
 def api_product_overview(request):
     api_urls = {
-        'Products List': '/product-list/',
-        'Product Search': '/product-list/?search=',
+        'Products List': 'product-list/',
+        'Product Search': 'product-list/?search=',
         'Get some product': 'get-product/<str:pk>/',
 
-        'Categories': '/category/',
-        'All prod by category': '/category/<str:pk>/',
+        'Categories': 'category/',
+        'All prod by category': 'category/<str:pk>/',
     }
     return Response(api_urls)
 
 
 class ProductList(generics.ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter().only(
+        "category_id",
+        "image", "title",
+        "color", "memory", "price",
+        "description", "quantity")
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'price', 'color', 'memory']
@@ -32,7 +36,11 @@ class ProductList(generics.ListAPIView):
 @api_view(['GET'])
 def get_product(request, pk):
     try:
-        product = Product.objects.get(pk=pk)
+        product = Product.objects.only(
+            "category_id",
+            "image", "title",
+            "color", "memory", "price",
+            "description", "quantity").get(pk=pk)
         serializer = ProductSerializer(product, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except ObjectDoesNotExist:
@@ -52,7 +60,12 @@ def category(request):
 @api_view(['GET'])
 def prod_by_categ(request, pk):
     try:
-        by_categ = Product.objects.filter(category=pk)
+        by_categ = Product.objects.filter(category=pk).only(
+            "category_id",
+            "image", "title",
+            "color", "memory", "price",
+            "description", "quantity"
+        )
         serializer = ProductSerializer(by_categ, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except ObjectDoesNotExist:

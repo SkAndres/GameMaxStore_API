@@ -44,18 +44,27 @@ class NewOrder(generics.GenericAPIView):
             order_items = serializer.data.get('product')
 
             for prod_id in order_items:
-                product = Product.objects.get(id=prod_id)
-                item = Order.objects.create(
-                    user=request.user,
-                    order=order_data,
-                    product=product,
-                    price=serializer.data.get('price'),
-                    quantity=serializer.data.get('quantity'),
-                )
-                product.quantity -= item.quantity
-                product.save()
+                product = Product.objects.only('id').get(id=prod_id)
 
-                TaskOrdConf().send_email(order_data, item, product)
+                if product.quantity > 1:
+                    item = Order.objects.create(
+                        user=request.user,
+                        order=order_data,
+                        product=product,
+                        price=serializer.data.get('price'),
+                        quantity=serializer.data.get('quantity'),
+                    )
+
+                    product.quantity -= item.quantity
+                    product.save()
+
+                else:
+                    return Response(
+                        {'Error': f'Product {product.title} out of stock'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+            TaskOrdConf().send_email(order_data)
 
             return Response(
                 {'message': 'Order successfully created'},
@@ -66,7 +75,13 @@ class NewOrder(generics.GenericAPIView):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def order_list(request):
-    orders = Order.objects.filter(user=request.user)
+    orders = Order.objects.filter(user=request.user).only(
+        "user",
+        "order",
+        "product",
+        "price",
+        "quantity"
+    )
     serializer = OrderHistorySerializer(orders, many=True)
     return Response(
         serializer.data,

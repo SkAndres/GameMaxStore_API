@@ -55,7 +55,8 @@ class RegisterView(generics.GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             user_data = serializer.data
-            user = User.objects.get(username=user_data['username'])
+            user = User.objects.only('username', 'email')\
+                .get(username=user_data['username'])
             token = RefreshToken.for_user(user).access_token
             current_site = get_current_site(request).domain
             link = reverse('email-verify')
@@ -73,7 +74,7 @@ class EmailVerify(views.APIView):
         token = request.GET.get('token')
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
-            user = User.objects.get(id=payload['user_id'])
+            user = User.objects.only('id').get(id=payload['user_id'])
             if not user.is_verified:
                 user.is_verified = True
                 user.save()
@@ -93,7 +94,8 @@ class RequestEmailResetPassword(generics.GenericAPIView):
     def post(self, request):
         user = request.user
         serializer = self.serializer_class(data=request.data,
-                                           context={'user': user})
+                                           context={'user': user,
+                                                    'request': request})
 
         if serializer.is_valid(raise_exception=True):
             return Response({
@@ -108,7 +110,7 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
 
         try:
             user_id = smart_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(id=user_id)
+            user = User.objects.only('id').get(id=user_id)
             if not PasswordResetTokenGenerator().check_token(user, token):
                 return Response({'error': 'Token is not valid, please '
                                           'request a new one to change password'},

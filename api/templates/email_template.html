@@ -89,16 +89,17 @@ For what reason would it be advisable for me to think about business content? Th
                                 </tr>
                                 {% for obj in product %}
 
+
                                         <tr>
                                             <td class="align-middle" width="20%">
-                                                <img src="{{obj.image.url}}" class="img-fluid rounded-3" style="width:60px;">
+                                                <img src="{{obj.product.image.url}}" class="img-fluid rounded-3" style="width:60px;">
                                                 {%csrf_token%}
                                             </td>
                                             <td width="40%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                {{ obj.title }}
+                                                {{ obj.product.title }}
                                             </td>
                                             <td width="15%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                $ {{ obj.price }}
+                                                $ {{ obj.product.price }}
                                             </td>
                                         </tr>
 
@@ -114,7 +115,7 @@ For what reason would it be advisable for me to think about business content? Th
                                         TOTAL
                                     </td>
                                     <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
-                                        $ {{item.price}}
+                                        $ {{price}}
                                     </td>
                                 </tr>
                             </table>
@@ -123,6 +124,8 @@ For what reason would it be advisable for me to think about business content? Th
                 </table>
 
                 </td>
+
+
             </tr>
              <tr>
                 <td align="center" height="100%" valign="top" width="100%" style="padding: 0 35px 35px 35px; background-color: #ffffff;" bgcolor="#ffffff">

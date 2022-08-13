@@ -9,8 +9,7 @@ urlpatterns = [
     path('api/product/', include('api.urls.product_urls')),
     path('api/user/', include('api.urls.user_urls')),
     path('api/order/', include('api.urls.order_urls')),
-
-
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 if settings.DEBUG:
