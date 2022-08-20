@@ -9,7 +9,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api.models import User
 from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed
-from api.tasks import TaskPassRest
+from api.tasks import send_password_reset
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -99,7 +99,11 @@ class ResetPasswordEmailSerializer(serializers.Serializer):
                                    kwargs={'uidb64': uidb64,
                                            'token': token})
             absurl = 'http://' + current_site + relativelink
-            TaskPassRest().send_email(url=absurl, user=user)
+
+            send_password_reset.delay(url=absurl,
+                                      user_email=user.email,
+                                      username=user.username)
+
             return attrs
         except ObjectDoesNotExist:
             raise serializers.ValidationError(

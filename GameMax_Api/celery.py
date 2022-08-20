@@ -1,8 +1,26 @@
 import os
 from celery import Celery
-from django.core.asgi import get_asgi_application
+from celery.schedules import crontab
+from tzlocal import get_localzone
+from django.conf import settings
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GameMax_Api.settings')
-app = Celery(get_asgi_application())
+app = Celery('GameMax_Api')
 app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks()
+
+app.conf.update(timezone=get_localzone())
+
+
+app.conf.beat_schedule = {
+    'check-every-hour': {
+        'task': 'api.tasks.cleaning_of_unverified_users',
+        'schedule': crontab(hour='*/1')
+    }
+}
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')

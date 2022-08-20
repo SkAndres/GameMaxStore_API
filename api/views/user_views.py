@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from api.serializers.user_serializers import *
 from django.conf import settings
 from django.urls import reverse
-from api.tasks import TaskEmailVerify
+from api.tasks import send_email_verify
 import jwt
 
 
@@ -61,7 +61,10 @@ class RegisterView(generics.GenericAPIView):
             current_site = get_current_site(request).domain
             link = reverse('email-verify')
             abslt_url = f'http://{current_site}{link}?token={str(token)}'
-            TaskEmailVerify().send_email(url=abslt_url, user=user)
+            send_email_verify.delay(url=abslt_url,
+                                    user_email=user.email,
+                                    username=user.username)
+
             return Response(user_data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -153,4 +156,6 @@ def update_user_profile(request):
                         status=status.HTTP_200_OK)
 
     return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
 

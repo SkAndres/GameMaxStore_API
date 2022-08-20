@@ -28,6 +28,12 @@ class OrderSerializer(serializers.ModelSerializer):
         ]
 
 
+class OrderSendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['__all__']
+
+
 class OrderHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Order

@@ -5,8 +5,8 @@ from api.serializers.order_serializers import *
 from rest_framework import generics
 from rest_framework import status
 from api.models import Order
-from api.tasks import TaskOrdConf
-
+from api.tasks import send_order_conf
+import json
 
 @api_view(['GET'])
 def api_order_overview(request):
@@ -64,7 +64,9 @@ class NewOrder(generics.GenericAPIView):
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
-            TaskOrdConf().send_email(order_data)
+            send_order_conf.delay(order_id=order_data.id,
+                                  order_email=order_data.email,
+                                  )
 
             return Response(
                 {'message': 'Order successfully created'},
