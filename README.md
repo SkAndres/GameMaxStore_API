@@ -9,5 +9,6 @@ Used technologies:
 - Django CI
 - PostgresSQL
 - Celery
+- Redis
 - Docker
 - Unit tests
