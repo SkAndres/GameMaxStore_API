@@ -1,4 +1,4 @@
-from django.urls import path
+"""from django.urls import path
 from api.views import user_views
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -36,3 +36,4 @@ urlpatterns = [
     path('profile/update/', user_views.update_user_profile, name="user-profile-update"),
 
 ]
+"""

@@ -1,4 +1,4 @@
-from api.models import Product, Category
+"""from api.models import Product, Category
 from rest_framework import serializers
 
 
@@ -11,9 +11,7 @@ class CategoriesSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = [
-            "category_id",
-            "image", "title",
-            "color", "memory", "price",
-            "description", "quantity"
-        ]
+        fields = ["id", "category_id", "image", "title",
+                  "color", "memory", "price",
+                  "description", "quantity"]
+"""

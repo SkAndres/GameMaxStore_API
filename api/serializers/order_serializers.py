@@ -1,6 +1,6 @@
-from api.models import OrderAddress, Order
+"""from api.models import OrderAddress, Order
 from rest_framework import serializers
-from api.models import Product
+from pro.models import Product
 
 
 class OrderAddressSerializer(serializers.ModelSerializer):
@@ -16,9 +16,6 @@ class OrderAddressSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    order = OrderAddressSerializer(many=False)
-    product = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects, many=True)
 
     class Meta:
         model = Order
@@ -41,3 +38,4 @@ class OrderHistorySerializer(serializers.ModelSerializer):
             'user', 'order', 'product',
             'price', 'quantity'
         ]
+"""

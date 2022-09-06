@@ -15,7 +15,7 @@ app.conf.update(timezone=get_localzone())
 app.conf.beat_schedule = {
     'check-every-hour': {
         'task': 'api.tasks.cleaning_of_unverified_users',
-        'schedule': crontab(hour='*/1')
+        'schedule': crontab(hour=1)
     }
 }
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)

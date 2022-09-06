@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+'''from django.contrib.auth.models import User
 from django.utils.encoding import DjangoUnicodeDecodeError, smart_str
 from rest_framework import status, generics, views
 from rest_framework.decorators import api_view, permission_classes
@@ -159,3 +159,4 @@ def update_user_profile(request):
 
 
 
+'''

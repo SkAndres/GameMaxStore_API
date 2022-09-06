@@ -1,4 +1,4 @@
-from django.contrib.auth.hashers import make_password
+"""from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
@@ -144,3 +144,4 @@ class SetNewPasswordSerlializer(serializers.Serializer):
             raise AuthenticationFailed('The reset link invalid',
                                        status.HTTP_401_UNAUTHORIZED)
 
+"""

@@ -1,7 +1,9 @@
-from django.core.mail import send_mail
+"""from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+
+from GameMax_Api.celery import app
 from api.models import Order, User
 from celery import shared_task
 
@@ -47,11 +49,11 @@ def send_order_conf(order_id, order_email):
     return mail_sent
 
 
-@shared_task(bind=True)
+@app.task(bind=True)
 def cleaning_of_unverified_users(*args, **kwargs):
     for user in User.objects.all():
         if not user.is_verified:
             user.delete()
-        else:
-            pass
+    return "Done"
 
+"""

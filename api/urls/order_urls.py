@@ -1,4 +1,4 @@
-from django.urls import path
+"""from django.urls import path
 from api.views import order_views
 
 urlpatterns = [
@@ -7,3 +7,4 @@ urlpatterns = [
     path('order-history/', order_views.order_list, name='order-history'),
 
 ]
+"""

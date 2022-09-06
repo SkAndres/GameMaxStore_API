@@ -1,9 +1,10 @@
-from rest_framework.response import Response
+"""from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.serializers.product_serializers import *
+from api.serializers.product_serializers import CategoriesSerializer, ProductSerializer
+from api.models import Category, Product
 from rest_framework import filters, generics
-from rest_framework import status
-from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 @api_view(['GET'])
@@ -19,58 +20,21 @@ def api_product_overview(request):
     return Response(api_urls)
 
 
-class ProductList(generics.ListAPIView):
-    queryset = Product.objects.filter().only(
-        "category_id",
-        "image", "title",
-        "color", "memory", "price",
-        "description", "quantity")
+class CategoryList(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = Category.objects.all().only('id', 'name')
+        return queryset
+    serializer_class = CategoriesSerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.select_related(
+        "category").only("id", "category", "category_id",
+                         "image", "title", "color",
+                         "memory", "price", "description",
+                         "quantity")
     serializer_class = ProductSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['title', 'price', 'color', 'memory']
-
-    def get_paginated_response(self, data):
-        return Response(data, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-def get_product(request, pk):
-    try:
-        product = Product.objects.only(
-            "category_id",
-            "image", "title",
-            "color", "memory", "price",
-            "description", "quantity").get(pk=pk)
-        serializer = ProductSerializer(product, many=False)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except ObjectDoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-def category(request):
-    try:
-        categ = Category.objects.all()
-        serializer = CategoriesSerializer(categ, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except ObjectDoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-def prod_by_categ(request, pk):
-    try:
-        by_categ = Product.objects.filter(category=pk).only(
-            "category_id",
-            "image", "title",
-            "color", "memory", "price",
-            "description", "quantity"
-        )
-        serializer = ProductSerializer(by_categ, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except ObjectDoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_fields = ['category__name', 'title', 'price', 'color', 'memory']
+    search_fields = ['category__name', 'title', 'price', 'color', 'memory']
+"""
